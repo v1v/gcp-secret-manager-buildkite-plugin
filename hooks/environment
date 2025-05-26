@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+set -x
+
 echo "--- :googlecloud::key: Reading secrets from GCP Secret Manager"
 
 initialized=""
