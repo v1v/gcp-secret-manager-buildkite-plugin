@@ -46,20 +46,13 @@ function get_secret_value() {
   local secret_value
 
   set -x
-  echo "bare secret value from GCP Secret Manager:"
-  secret_value=$(gcloud secrets versions access latest \
-    --secret="${secret_name}" \
-    --format='get(payload.data)')
-
-  echo "$secret_value"
-  echo "$secret_value" | tr '_-' '/+'
-  echo "$secret_value" | tr '_-' '/+' | base64 -d
-
   echo "manipulate secret secret value from GCP Secret Manager:"
   secret_value=$(gcloud secrets versions access latest \
     --secret="${secret_name}" \
-    --format='get(payload.data)' | tr '_-' '/+' | base64 -d)
-
+    --format='get(payload.data)' | base64 -d)
+  gcloud secrets versions access latest \
+    --secret="${secret_name}" \
+    --format='get(payload.data)' | base64 -d
   result=$?
   if [[ $result -ne 0 ]]; then
     exit 1
